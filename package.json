@@ -1,0 +1,22 @@
+{
+  "name": "paos3-presigned-api",
+  "version": "1.0.0",
+  "description": "API para generar URLs prefirmadas de subida y descarga en S3",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "apply-cors": "node scripts/apply-bucket-cors.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1079.0",
+    "@aws-sdk/client-s3": "^3.758.0",
+    "@aws-sdk/lib-dynamodb": "^3.1079.0",
+    "@aws-sdk/s3-request-presigner": "^3.758.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3"
+  }
+}

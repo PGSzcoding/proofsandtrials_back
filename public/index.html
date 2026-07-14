@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>paoS3 — Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <div>
+          <h1>paoS3 Demo</h1>
+          <p class="subtitle">Subida, listado y descarga con URLs prefirmadas</p>
+        </div>
+        <span id="status" class="status">Listo</span>
+      </header>
+
+      <section class="panel actions">
+        <div class="action-group">
+          <label class="file-label">
+            <input id="fileInput" type="file" hidden />
+            <span class="btn btn-secondary">Elegir archivo</span>
+          </label>
+          <span id="fileName" class="file-name">Ningún archivo seleccionado</span>
+          <button id="uploadBtn" class="btn btn-primary" disabled>Subir archivo</button>
+        </div>
+
+        <button id="listBtn" class="btn btn-outline">Listar archivos</button>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Archivos en S3</h2>
+          <span id="fileCount" class="badge">0</span>
+        </div>
+        <div id="message" class="message hidden"></div>
+        <ul id="fileList" class="file-list"></ul>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
