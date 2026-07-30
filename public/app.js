@@ -6,7 +6,7 @@ const fileList = document.getElementById("fileList");
 const fileCount = document.getElementById("fileCount");
 const messageEl = document.getElementById("message");
 const statusEl = document.getElementById("status");
-
+const clickBtn = document.getElementById("btnClick");
 let selectedFile = null;
 
 function setStatus(text, type = "idle") {
@@ -54,35 +54,7 @@ async function api(path, options = {}) {
   return data;
 }
 
-router.get("/search", async (req, res) => {
-  try {
-    const clave = req.query.clave;
 
-    if (typeof clave !== "string" || !clave.trim()) {
-      return res.status(400).json({
-        message: "La clave es obligatoria",
-      });
-    }
-
-    const certificate = await getMetadataByClave(clave);
-
-    if (!certificate) {
-      return res.status(404).json({
-        message: "No se encontró un certificado con esa clave",
-      });
-    }
-
-    return res.status(200).json({
-      certificate,
-    });
-  } catch (error) {
-    console.error("Error buscando certificado:", error);
-
-    return res.status(500).json({
-      message: "No se pudo buscar el certificado",
-    });
-  }
-});
 
 function renderFiles(files) {
   fileList.innerHTML = "";
@@ -174,6 +146,14 @@ async function uploadFile() {
   }
 }
 
+async function increaseButton() {
+  try {
+    const data = await api("/api/increase");
+  } catch (error) {
+  } finally {
+  }
+}
+
 async function downloadFile(key) {
   hideMessage();
   setStatus("Descargando...", "loading");
@@ -214,5 +194,6 @@ fileInput.addEventListener("change", () => {
 
 uploadBtn.addEventListener("click", uploadFile);
 listBtn.addEventListener("click", listFiles);
+clickBtn.addEventListener("click",increaseButton)
 
 listFiles();

@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import { fileURLToPath } from "node:url";
 import { config } from "./config.js";
 import { createDownloadUrl, createUploadUrl, listFiles,deleteFile } from "./s3.js";
-import { deleteFileMetadata, getFileMetadataById, saveFileMetadata,getMetadataByClave } from "./dynamodb.js";
+import { deleteFileMetadata, getFileMetadataById, saveFileMetadata,getMetadataByClave, increasseButtonCount } from "./dynamodb.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -75,6 +75,24 @@ app.get("/api/files", async (req, res) => {
   }
 });
 
+app.get("/api/increase", async (req, res) => {
+  try {
+    const result = await increasseButtonCount();
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.get("/api/count", async (req, res) => {
+  try {
+    const metadata = await getFileMetadataById("button_count");
+      res.json(metadata)
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.delete("/api/files/*", async (req, res) => {
     try {
     const  id  = req.params[0];
@@ -131,6 +149,8 @@ app.get("/api/search", async (req, res) => {
     });
   }
 });
+
+
 
 app.post("/api/files", async (req, res) => {
   try {

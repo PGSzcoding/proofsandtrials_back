@@ -1,5 +1,5 @@
 import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
-import { DeleteCommand, DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, DynamoDBDocumentClient, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
 import crypto from "node:crypto";
 
@@ -59,6 +59,25 @@ export async function getFileMetadataById(id) {
   return result.Item;
 }
 
+export async function updateFileMetadataById(id,clave) {
+  const result = await dynamo.send(
+    new UpdateCommand({
+      TableName: "Certificates",
+      Key: { id },
+      UpdateExpression: "SET #clave = :clave",
+      ExpressionAttributeNames: {
+        "#clave": "clave",
+      },
+      ExpressionAttributeValues: {
+        ":clave": clave,
+      },
+      ReturnValues: "ALL_NEW",
+    })
+  );
+
+  return result.Attributes;
+}
+
 export async function deleteFileMetadata(id) {
   await dynamo.send(
     new DeleteCommand({
@@ -68,4 +87,12 @@ export async function deleteFileMetadata(id) {
       },
     })
   );
+}
+
+
+export async function increasseButtonCount() {
+  const result = await getFileMetadataById('button_count')
+  let new_result = +result.clave + 1
+  const result2 = await updateFileMetadataById('button_count',new_result.toString())
+  return result2;
 }
